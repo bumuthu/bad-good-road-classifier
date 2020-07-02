@@ -38,6 +38,7 @@ class DataPreprocessing:
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
+        self.y_test = y_test
 
 
     def prepare_data_generator(self):
