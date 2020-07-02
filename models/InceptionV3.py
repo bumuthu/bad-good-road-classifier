@@ -70,7 +70,7 @@ class InceptionV3Classifier:
             weight_col=None,
             classes=None,
             target_size=(self.ROWS, self.COLS),
-            batch_size=200)
+            batch_size=64)
 
         input_shape = (self.ROWS, self.COLS, 3)
         self.nclass = len(self.train_data_gen.class_indices)
@@ -112,7 +112,7 @@ class InceptionV3Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        self.model.load_weights(file_path)
+        # self.model.load_weights(file_path)
 
     def evaluate_model(self):
 
@@ -120,4 +120,5 @@ class InceptionV3Classifier:
         predicts = np.argmax(predicts, axis=1)
 
         print(predicts)
+
 
