@@ -62,15 +62,15 @@ class InceptionV3Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=16)
 
-        self.test_data_gen = data_gen.flow_from_dataframe(
-            dataframe=self.test_df,
-            directory=None,
-            x_col="id",
-            y_col="label",
-            weight_col=None,
-            classes=None,
-            target_size=(self.ROWS, self.COLS),
-            batch_size=16)
+        # self.test_data_gen = data_gen.flow_from_dataframe(
+        #     dataframe=self.test_df,
+        #     directory=None,
+        #     x_col="id",
+        #     y_col="label",
+        #     weight_col=None,
+        #     classes=None,
+        #     target_size=(self.ROWS, self.COLS),
+        #     batch_size=16)
 
         input_shape = (self.ROWS, self.COLS, 3)
         self.nclass = len(self.train_data_gen.class_indices)
