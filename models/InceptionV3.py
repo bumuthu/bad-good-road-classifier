@@ -57,6 +57,8 @@ class InceptionV3Classifier:
             directory=None,
             x_col="id",
             y_col="label",
+            weight_col=None,
+            classes=None,
             target_size=(self.ROWS, self.COLS),
             batch_size=16)
 
@@ -65,6 +67,8 @@ class InceptionV3Classifier:
             directory=None,
             x_col="id",
             y_col="label",
+            weight_col=None,
+            classes=None,
             target_size=(self.ROWS, self.COLS),
             batch_size=16)
 
