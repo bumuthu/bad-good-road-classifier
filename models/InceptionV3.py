@@ -36,8 +36,8 @@ class InceptionV3Classifier:
         paths_train, paths_test, y_train, y_test = train_test_split(paths, y, test_size=self.test_ratio,
                                                                     random_state=42)
 
-        train_path_dict = [{"id": paths_train[i], "label": y_train[i]} for i in range(len(paths_train))]
-        test_path_dict = [{"id": paths_test[i], "label": y_test[i]} for i in range(len(paths_test))]
+        train_path_dict = [{"filename": paths_train[i], "class": y_train[i]} for i in range(len(paths_train))]
+        test_path_dict = [{"filename": paths_test[i], "class": y_test[i]} for i in range(len(paths_test))]
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
@@ -55,8 +55,8 @@ class InceptionV3Classifier:
         self.train_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
-            x_col="id",
-            y_col="label",
+            x_col="filename",
+            y_col="class",
             weight_col=None,
             classes=None,
             target_size=(self.ROWS, self.COLS),
