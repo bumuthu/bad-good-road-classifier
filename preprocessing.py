@@ -1,14 +1,8 @@
-import numpy as np
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.inception_v3 import preprocess_input
-from keras.models import Sequential
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau, TensorBoard
-from keras import optimizers, losses, activations, models
-from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, MaxPooling2D, BatchNormalization, \
-    GlobalAveragePooling2D, Concatenate
 from keras import applications
 
 class DataPreprocessing:
@@ -40,34 +34,3 @@ class DataPreprocessing:
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
         self.y_test = y_test
 
-
-    def prepare_data_generator(self):
-        data_gen = ImageDataGenerator(vertical_flip=True,
-                                      horizontal_flip=True,
-                                      height_shift_range=0.1,
-                                      width_shift_range=0.1,
-                                      preprocessing_function=preprocess_input)
-
-        self.train_data_gen = data_gen.flow_from_dataframe(
-            dataframe=self.train_df,
-            directory=None,
-            class_mode="categorical",
-            x_col="filename",
-            y_col="class",
-            weight_col=None,
-            classes=None,
-            target_size=(self.ROWS, self.COLS),
-            batch_size=16)
-
-        self.test_data_gen = data_gen.flow_from_dataframe(
-            dataframe=self.test_df,
-            directory=None,
-            x_col="filename",
-            y_col="class",
-            weight_col=None,
-            classes=None,
-            target_size=(self.ROWS, self.COLS),
-            batch_size=64)
-
-        input_shape = (self.ROWS, self.COLS, 3)
-        self.nclass = len(self.train_data_gen.class_indices)

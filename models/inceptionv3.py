@@ -1,7 +1,4 @@
 import numpy as np
-import pandas as pd
-import os
-from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.inception_v3 import preprocess_input
 from keras.models import Sequential
@@ -15,15 +12,45 @@ from sklearn.metrics import classification_report
 
 class InceptionV3Classifier:
 
-    def __init__(self, train_data_gen, test_data_gen, y_test):
+    def __init__(self, train_df, test_df, y_test, epochs):
 
         self.ROWS = 139
         self.COLS = 139
         self.nclass = 2
+        self.epochs = epochs
 
-        self.train_data_gen = train_data_gen
-        self.test_data_gen = test_data_gen
+        self.train_df = train_df
+        self.test_df = test_df
         self.y_test = y_test
+
+    def prepare_data_generator(self):
+        data_gen = ImageDataGenerator(vertical_flip=True,
+                                      horizontal_flip=True,
+                                      height_shift_range=0.1,
+                                      width_shift_range=0.1,
+                                      preprocessing_function=preprocess_input)
+
+        self.train_data_gen = data_gen.flow_from_dataframe(
+            dataframe=self.train_df,
+            directory=None,
+            class_mode="categorical",
+            x_col="filename",
+            y_col="class",
+            weight_col=None,
+            classes=None,
+            target_size=(self.ROWS, self.COLS),
+            batch_size=16)
+
+        self.test_data_gen = data_gen.flow_from_dataframe(
+            dataframe=self.test_df,
+            directory=None,
+            x_col="filename",
+            y_col="class",
+            weight_col=None,
+            classes=None,
+            target_size=(self.ROWS, self.COLS),
+            batch_size=64)
+
 
     def make_inceptionv3_model(self):
 
@@ -57,7 +84,7 @@ class InceptionV3Classifier:
         callbacks_list = [checkpoint, early]  # early
 
         history = self.model.fit_generator(self.train_data_gen,
-                                           epochs=10,
+                                           epochs=self.epochs,
                                            shuffle=True,
                                            verbose=True,
                                            callbacks=callbacks_list)
