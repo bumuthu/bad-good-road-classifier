@@ -27,10 +27,10 @@ class InceptionV3Classifier:
         y = []
 
         for bad_pth in os.listdir(self.data_dir + 'BadRoad'):
-            paths.append(bad_pth)
+            paths.append(self.data_dir + 'BadRoad/' + bad_pth)
             y.append(0)
         for good_pth in os.listdir(self.data_dir + 'GoodRoad'):
-            paths.append(good_pth)
+            paths.append(self.data_dir + 'GoodRoad/' + good_pth)
             y.append(1)
 
         paths_train, paths_test, y_train, y_test = train_test_split(paths, y, test_size=self.test_ratio,
@@ -54,6 +54,7 @@ class InceptionV3Classifier:
 
         self.train_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.train_df,
+            directory=None,
             x_col="id",
             y_col="label",
             target_size=(self.ROWS, self.COLS),
@@ -61,6 +62,7 @@ class InceptionV3Classifier:
 
         self.test_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.test_df,
+            directory=None,
             x_col="id",
             y_col="label",
             target_size=(self.ROWS, self.COLS),
