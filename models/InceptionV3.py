@@ -55,6 +55,7 @@ class InceptionV3Classifier:
         self.train_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
+            class_mode="categorical",
             x_col="filename",
             y_col="class",
             weight_col=None,
