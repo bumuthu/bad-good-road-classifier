@@ -8,7 +8,7 @@ if __name__ == "__main__":
     preproc.prepare_image_path_df()
     preproc.prepare_data_generator()
 
-    inceptionv3_model = InceptionV3Classifier(preproc.preproc, preproc.test_data_gen, preproc.y_test)
+    inceptionv3_model = InceptionV3Classifier(preproc.train_data_gen, preproc.test_data_gen, preproc.y_test)
 
     inceptionv3_model.make_inceptionv3_model()
     inceptionv3_model.train_model()
