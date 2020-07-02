@@ -1,6 +1,6 @@
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
-from keras.applications.vgg16 import preprocess_input
+from keras.applications.vgg19 import preprocess_input
 from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau, TensorBoard
 from keras import optimizers, losses, activations, models
@@ -10,7 +10,7 @@ from keras import applications
 from sklearn.metrics import classification_report
 
 
-class VGG16Classifier:
+class VGG19Classifier:
 
     def __init__(self, train_df, test_df, y_test, epochs):
 
@@ -52,7 +52,7 @@ class VGG16Classifier:
             batch_size=64)
 
 
-    def make_vgg16_model(self):
+    def make_vgg19_model(self):
 
         base_model = applications.VGG16(weights='imagenet',
                                               include_top=False,
@@ -98,7 +98,7 @@ class VGG16Classifier:
 
         report = classification_report(self.y_test, predicts)
 
-        print('VGG16')
+        print('VGG19')
         print(report)
 
 

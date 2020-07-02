@@ -39,7 +39,7 @@ class InceptionV3Classifier:
             weight_col=None,
             classes=None,
             target_size=(self.ROWS, self.COLS),
-            batch_size=16)
+            batch_size=64)
 
         self.test_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.test_df,
@@ -79,7 +79,7 @@ class InceptionV3Classifier:
 
         checkpoint = ModelCheckpoint(filepath=file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
 
-        early = EarlyStopping(monitor="acc", mode="max", patience=15)
+        early = EarlyStopping(monitor="accuracy", mode="max", patience=15)
 
         callbacks_list = [checkpoint, early]  # early
 
@@ -97,6 +97,8 @@ class InceptionV3Classifier:
         predicts = np.argmax(predicts, axis=1)
 
         report = classification_report(self.y_test, predicts)
+
+        print('Inception V3')
         print(report)
 
 

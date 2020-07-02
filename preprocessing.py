@@ -1,15 +1,13 @@
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
-from keras.preprocessing.image import ImageDataGenerator
-from keras.applications.inception_v3 import preprocess_input
-from keras import applications
+
 
 class DataPreprocessing:
 
-    def __init__(self):
-        self.data_dir = '/home/bumuthudilshanhhk/Downloads/dataset/'
-        self.test_ratio = 0.3
+    def __init__(self, data_path, test_ratio):
+        self.data_dir = data_path
+        self.test_ratio = test_ratio
         self.ROWS = 139
         self.COLS = 139
 
