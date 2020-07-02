@@ -21,8 +21,6 @@ class InceptionV3Classifier:
         self.ROWS = 139
         self.COLS = 139
 
-        self.prepare_image_path_df()
-
     def prepare_image_path_df(self):
 
         paths = []
