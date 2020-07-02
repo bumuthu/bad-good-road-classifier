@@ -54,11 +54,17 @@ class InceptionV3Classifier:
 
         self.train_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.train_df,
+            directory=None,
+            x_col="id",
+            y_col="label",
             target_size=(self.ROWS, self.COLS),
             batch_size=16)
 
         self.test_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.test_df,
+            directory=None,
+            x_col="id",
+            y_col="label",
             target_size=(self.ROWS, self.COLS),
             batch_size=16)
 
