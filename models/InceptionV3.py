@@ -42,6 +42,8 @@ class InceptionV3Classifier:
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
 
+        print(self.train_df)
+
     def prepare_data_generator(self):
 
         data_gen = ImageDataGenerator(vertical_flip=True,
