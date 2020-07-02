@@ -16,7 +16,7 @@ from keras import applications
 class InceptionV3Classifier:
 
     def __init__(self):
-        self.data_dir = '..//data//'
+        self.data_dir = '/home/bumuthudilshanhhk/Downloads/dataset/'
         self.test_ratio = 0.3
         self.ROWS = 139
         self.COLS = 139
