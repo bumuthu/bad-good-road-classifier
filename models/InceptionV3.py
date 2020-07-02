@@ -100,7 +100,7 @@ class InceptionV3Classifier:
 
         file_path = "./weights.best.hdf5"
 
-        checkpoint = ModelCheckpoint(file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
+        checkpoint = ModelCheckpoint(filepath=file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
 
         early = EarlyStopping(monitor="acc", mode="max", patience=15)
 
