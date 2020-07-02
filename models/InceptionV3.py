@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.inception_v3 import preprocess_input
 from keras.models import Sequential
-from keras.models import Model
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau, TensorBoard
 from keras import optimizers, losses, activations, models
 from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, MaxPooling2D, BatchNormalization, \
@@ -63,15 +62,15 @@ class InceptionV3Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=16)
 
-        # self.test_data_gen = data_gen.flow_from_dataframe(
-        #     dataframe=self.test_df,
-        #     directory=None,
-        #     x_col="id",
-        #     y_col="label",
-        #     weight_col=None,
-        #     classes=None,
-        #     target_size=(self.ROWS, self.COLS),
-        #     batch_size=16)
+        self.test_data_gen = data_gen.flow_from_dataframe(
+            dataframe=self.test_df,
+            directory=None,
+            x_col="filename",
+            y_col="class",
+            weight_col=None,
+            classes=None,
+            target_size=(self.ROWS, self.COLS),
+            batch_size=200)
 
         input_shape = (self.ROWS, self.COLS, 3)
         self.nclass = len(self.train_data_gen.class_indices)
@@ -99,7 +98,7 @@ class InceptionV3Classifier:
 
     def train_model(self):
 
-        file_path = "weights.best.hdf5"
+        file_path = "./weights.best.hdf5"
 
         checkpoint = ModelCheckpoint(file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
 
@@ -108,7 +107,7 @@ class InceptionV3Classifier:
         callbacks_list = [checkpoint, early]  # early
 
         history = self.model.fit_generator(self.train_data_gen,
-                                           epochs=2,
+                                           epochs=1,
                                            shuffle=True,
                                            verbose=True,
                                            callbacks=callbacks_list)
