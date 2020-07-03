@@ -14,11 +14,11 @@ if __name__ == "__main__":
     preproc = DataPreprocessing(data_path, test_ratio)
     preproc.prepare_image_path_df()
 
-    vgg16_model = VGG16Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs)
-    vgg16_model.prepare_data_generator()
-    vgg16_model.make_vgg16_model()
-    vgg16_model.train_model()
-    vgg16_model.evaluate_model()
+    # vgg16_model = VGG16Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs)
+    # vgg16_model.prepare_data_generator()
+    # vgg16_model.make_vgg16_model()
+    # vgg16_model.train_model()
+    # vgg16_model.evaluate_model()
 
     inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs)
     inceptionv3_model.prepare_data_generator()
