@@ -1,4 +1,5 @@
 import numpy as np
+import json
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.vgg16 import preprocess_input
 from keras.models import Sequential
@@ -12,12 +13,12 @@ from sklearn.metrics import classification_report
 
 class VGG16Classifier:
 
-    def __init__(self, train_df, test_df, y_test, epochs):
-
+    def __init__(self, train_df, test_df, y_test, epochs, batch_size):
         self.ROWS = 139
         self.COLS = 139
-        self.nclass = 2
+        self.batch_size = batch_size
         self.epochs = epochs
+        self.file_path = "./weights/weights-vgg16.h5"
 
         self.train_df = train_df
         self.test_df = test_df
@@ -26,8 +27,9 @@ class VGG16Classifier:
     def prepare_data_generator(self):
         data_gen = ImageDataGenerator(vertical_flip=True,
                                       horizontal_flip=True,
-                                      height_shift_range=0.1,
-                                      width_shift_range=0.1,
+                                      height_shift_range=0.3,
+                                      width_shift_range=0.3,
+                                      rotation_range=30,
                                       preprocessing_function=preprocess_input)
 
         self.train_data_gen = data_gen.flow_from_dataframe(
@@ -36,37 +38,38 @@ class VGG16Classifier:
             class_mode="categorical",
             x_col="filename",
             y_col="class",
+            shuffle=False,
             weight_col=None,
             classes=None,
             target_size=(self.ROWS, self.COLS),
-            batch_size=64)
+            batch_size=self.batch_size)
 
         self.test_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.test_df,
             directory=None,
+            class_mode="categorical",
             x_col="filename",
             y_col="class",
+            shuffle=False,
             weight_col=None,
             classes=None,
             target_size=(self.ROWS, self.COLS),
-            batch_size=64)
+            batch_size=self.batch_size)
 
-
-    def make_vgg16_model(self):
-
+    def create_model(self):
         base_model = applications.VGG16(weights='imagenet',
-                                              include_top=False,
-                                              input_shape=(self.ROWS, self.COLS, 3))
+                                        include_top=False,
+                                        input_shape=(self.ROWS, self.COLS, 3))
         base_model.trainable = False
 
         add_model = Sequential()
         add_model.add(base_model)
         add_model.add(GlobalAveragePooling2D())
         add_model.add(Dropout(0.5))
-        add_model.add(Dense(self.nclass,
-                            activation='softmax'))
+        add_model.add(Dense(2, activation='softmax'))
 
         self.model = add_model
+
         self.model.compile(loss='categorical_crossentropy',
                            optimizer=optimizers.SGD(lr=1e-4,
                                                     momentum=0.9),
@@ -74,11 +77,8 @@ class VGG16Classifier:
         self.model.summary()
 
     def train_model(self):
-
-        file_path = "./weights.best.hdf5"
-
-        checkpoint = ModelCheckpoint(filepath=file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
-
+        checkpoint = ModelCheckpoint(filepath=self.file_path, monitor='accuracy', verbose=1, save_best_only=True,
+                                     mode='max')
         early = EarlyStopping(monitor="accuracy", mode="max", patience=15)
 
         callbacks_list = [checkpoint, early]  # early
@@ -89,16 +89,14 @@ class VGG16Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        # self.model.load_weights(file_path)
+        with open('./history/vgg16.json', 'w') as f:
+            json.dump(history.history, f)
 
     def evaluate_model(self):
-
+        self.model.load_weights(self.file_path)
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         predicts = np.argmax(predicts, axis=1)
 
         report = classification_report(self.y_test, predicts)
 
-        print('VGG16')
         print(report)
-
-

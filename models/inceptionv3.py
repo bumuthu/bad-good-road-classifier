@@ -1,4 +1,5 @@
 import numpy as np
+import json
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.inception_v3 import preprocess_input
 from keras.models import Sequential
@@ -13,11 +14,11 @@ from sklearn.metrics import classification_report
 class InceptionV3Classifier:
 
     def __init__(self, train_df, test_df, y_test, epochs, batch_size):
-
         self.ROWS = 139
         self.COLS = 139
         self.batch_size = batch_size
         self.epochs = epochs
+        self.file_path = "./weights/weights-inceptionv3.h5"
 
         self.train_df = train_df
         self.test_df = test_df
@@ -55,9 +56,7 @@ class InceptionV3Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
-
-    def make_inceptionv3_model(self):
-
+    def create_model(self):
         base_model = applications.InceptionV3(weights='imagenet',
                                               include_top=False,
                                               input_shape=(self.ROWS, self.COLS, 3))
@@ -79,9 +78,7 @@ class InceptionV3Classifier:
 
     def train_model(self):
 
-        file_path = "weights.h5"
-
-        checkpoint = ModelCheckpoint(filepath=file_path, monitor='accuracy', verbose=1, save_best_only=True, mode='max')
+        checkpoint = ModelCheckpoint(filepath=self.file_path, monitor='accuracy', verbose=1, save_best_only=True, mode='max')
         early = EarlyStopping(monitor="accuracy", mode="max", patience=15)
 
         callbacks_list = [checkpoint, early]  # early
@@ -92,16 +89,15 @@ class InceptionV3Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        self.model.load_weights(file_path)
+        with open('./history/inceptionv3.json', 'w') as f:
+            json.dump(history.history, f)
 
     def evaluate_model(self):
-
+        self.model.load_weights(self.file_path)
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         predicts = np.argmax(predicts, axis=1)
 
         report = classification_report(self.y_test, predicts)
 
-        print('Inception V3')
         print(report)
-
 
