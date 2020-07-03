@@ -29,7 +29,6 @@ class InceptionV3Classifier:
                                       height_shift_range=0.3,
                                       width_shift_range=0.3,
                                       rotation_range=30,
-                                      shuffle=False,
                                       rescale=1. / 255,
                                       preprocessing_function=preprocess_input)
 
@@ -38,7 +37,6 @@ class InceptionV3Classifier:
                                        height_shift_range=0.3,
                                        width_shift_range=0.3,
                                        rotation_range=30,
-                                       shuffle=False,
                                        rescale=1. / 255,
                                        preprocessing_function=preprocess_input)
 
