@@ -102,7 +102,7 @@ class InceptionV3Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        self.model.load_weights(file_path)
+        # self.model.load_weights(file_path)
 
     def evaluate_model(self):
 
