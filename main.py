@@ -10,6 +10,7 @@ if __name__ == "__main__":
     epochs = 1
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset/'
     test_ratio = 0.3
+    batch_size = 16
 
     preproc = DataPreprocessing(data_path, test_ratio)
     preproc.prepare_image_path_df()
@@ -20,7 +21,7 @@ if __name__ == "__main__":
     # vgg16_model.train_model()
     # vgg16_model.evaluate_model()
 
-    inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs)
+    inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
     inceptionv3_model.prepare_data_generator()
     inceptionv3_model.make_inceptionv3_model()
     inceptionv3_model.train_model()
