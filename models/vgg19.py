@@ -60,7 +60,7 @@ class VGG19Classifier:
 
     def create_model(self):
 
-        base_model = applications.VGG16(weights='imagenet',
+        base_model = applications.VGG19(weights='imagenet',
                                               include_top=False,
                                               input_shape=(self.ROWS, self.COLS, 3))
         base_model.trainable = False

@@ -31,11 +31,11 @@ if __name__ == "__main__":
         model.create_model()
         model.evaluate_model()
 
-    train_model(vgg16_model)
-    train_model(vgg19_model)
-    train_model(inceptionv3_model)
-    train_model(resnet50_model)
-    train_model(xception_model)
+    # train_model(vgg16_model)
+    # train_model(vgg19_model)
+    # train_model(inceptionv3_model)
+    # train_model(resnet50_model)
+    # train_model(xception_model)
 
     evaluate_model(vgg16_model)
     evaluate_model(vgg19_model)
