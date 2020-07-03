@@ -5,7 +5,7 @@ from keras.applications.resnet50 import preprocess_input
 from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau, TensorBoard
 from keras import optimizers, losses, activations, models
-from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, MaxPooling1D, BatchNormalization, \
+from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, GlobalMaxPooling2D, BatchNormalization, \
     GlobalAveragePooling2D, Concatenate
 from keras import applications
 from sklearn.metrics import classification_report
@@ -67,10 +67,10 @@ class ResNet50Classifier:
 
         add_model = Sequential()
         add_model.add(base_model)
+        add_model.add(GlobalMaxPooling2D())
         add_model.add(Flatten())
         add_model.add(Dropout(0.2))
         add_model.add(Dense(1024, activation='relu'))
-        add_model.add(MaxPooling1D())
         add_model.add(Dense(128, activation='relu'))
         add_model.add(Dense(2, activation='softmax'))
 
