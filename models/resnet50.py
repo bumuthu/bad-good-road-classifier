@@ -26,8 +26,9 @@ class ResNet50Classifier:
         self.y_test = y_test
 
     def prepare_data_generator(self):
-        data_gen = ImageDataGenerator(vertical_flip=True,
+        data_gen = ImageDataGenerator(vertical_flip=False,
                                       horizontal_flip=True,
+                                      rescale=1. / 255,
                                       height_shift_range=0.3,
                                       width_shift_range=0.3,
                                       rotation_range=30,
@@ -63,13 +64,15 @@ class ResNet50Classifier:
         base_model = applications.ResNet50(weights='imagenet',
                                               include_top=False,
                                               input_shape=(self.ROWS, self.COLS, 3))
-        base_model.trainable = False
+
+        for layer in base_model.layers[:5]:
+            layer.trainable = False
 
         add_model = Sequential()
         add_model.add(base_model)
-        add_model.add(GlobalMaxPooling2D())
+        # add_model.add(GlobalMaxPooling2D())
         add_model.add(Flatten())
-        add_model.add(Dropout(0.2))
+        add_model.add(Dropout(0.5))
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dense(128, activation='relu'))
         add_model.add(Dense(2, activation='softmax'))
