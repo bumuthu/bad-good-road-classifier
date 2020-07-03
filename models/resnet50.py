@@ -15,8 +15,8 @@ class ResNet50Classifier:
 
     def __init__(self, train_df, test_df, y_test, epochs, batch_size):
 
-        self.ROWS = 139
-        self.COLS = 139
+        self.ROWS = 224
+        self.COLS = 224
         self.batch_size = batch_size
         self.epochs = epochs
         self.file_path = "./weights/weights-resnet50.h5"
