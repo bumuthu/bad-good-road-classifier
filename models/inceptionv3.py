@@ -25,15 +25,16 @@ class InceptionV3Classifier:
         self.y_test = y_test
 
     def prepare_data_generator(self):
-        data_gen = ImageDataGenerator(vertical_flip=False,
-                                      horizontal_flip=True,
-                                      rescale=1. / 255,
-                                      height_shift_range=0.3,
-                                      width_shift_range=0.3,
-                                      rotation_range=30,
-                                      preprocessing_function=preprocess_input)
+        train_data_gen = ImageDataGenerator(vertical_flip=False,
+                                            horizontal_flip=True,
+                                            height_shift_range=0.3,
+                                            width_shift_range=0.3,
+                                            rotation_range=30,
+                                            preprocessing_function=preprocess_input)
 
-        self.train_data_gen = data_gen.flow_from_dataframe(
+        test_data_gen = ImageDataGenerator(preprocessing_function=preprocess_input)
+
+        self.train_data_gen = train_data_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
@@ -68,7 +69,9 @@ class InceptionV3Classifier:
         add_model = Sequential()
         add_model.add(base_model)
         add_model.add(Flatten())
-        add_model.add(Dropout(0.4))
+        add_model.add(Dropout(0.2))
+        add_model.add(Dense(1024, activation='relu'))
+        add_model.add(Dropout(0.3))
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dense(2, activation='softmax'))
 
@@ -81,8 +84,8 @@ class InceptionV3Classifier:
         self.model.summary()
 
     def train_model(self):
-
-        checkpoint = ModelCheckpoint(filepath=self.file_path, monitor='accuracy', verbose=1, save_best_only=True, mode='max')
+        checkpoint = ModelCheckpoint(filepath=self.file_path, monitor='accuracy', verbose=1, save_best_only=True,
+                                     mode='max')
         early = EarlyStopping(monitor="accuracy", mode="max", patience=15)
 
         callbacks_list = [checkpoint, early]  # early
@@ -103,4 +106,3 @@ class InceptionV3Classifier:
         report = classification_report(self.y_test, predicts)
 
         print(report)
-

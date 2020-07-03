@@ -25,15 +25,16 @@ class VGG16Classifier:
         self.y_test = y_test
 
     def prepare_data_generator(self):
-        data_gen = ImageDataGenerator(vertical_flip=False,
-                                      horizontal_flip=True,
-                                      rescale=1. / 255,
-                                      height_shift_range=0.3,
-                                      width_shift_range=0.3,
-                                      rotation_range=30,
-                                      preprocessing_function=preprocess_input)
+        train_data_gen = ImageDataGenerator(vertical_flip=False,
+                                            horizontal_flip=True,
+                                            height_shift_range=0.3,
+                                            width_shift_range=0.3,
+                                            rotation_range=30,
+                                            preprocessing_function=preprocess_input)
 
-        self.train_data_gen = data_gen.flow_from_dataframe(
+        test_data_gen = ImageDataGenerator(preprocessing_function=preprocess_input)
+
+        self.train_data_gen = train_data_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
@@ -45,7 +46,7 @@ class VGG16Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
-        self.test_data_gen = data_gen.flow_from_dataframe(
+        self.test_data_gen = test_data_gen.flow_from_dataframe(
             dataframe=self.test_df,
             directory=None,
             class_mode="categorical",
@@ -68,7 +69,9 @@ class VGG16Classifier:
         add_model = Sequential()
         add_model.add(base_model)
         add_model.add(Flatten())
-        add_model.add(Dropout(0.4))
+        add_model.add(Dropout(0.2))
+        add_model.add(Dense(1024, activation='relu'))
+        add_model.add(Dropout(0.3))
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dense(2, activation='softmax'))
 
