@@ -61,7 +61,7 @@ class InceptionV3Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
-        print('iiiiiiiiiiiiiiiiiiiiii',self.test_data_gen)
+        print('iiiiiiiiiiiiiiiiiiiiii',self.test_data_gen.dataframe)
 
 
     def make_inceptionv3_model(self):
