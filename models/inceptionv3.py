@@ -29,7 +29,6 @@ class InceptionV3Classifier:
                                       height_shift_range=0.3,
                                       width_shift_range=0.3,
                                       rotation_range=30,
-                                      # rescale=1. / 255,
                                       preprocessing_function=preprocess_input)
 
         self.train_data_gen = data_gen.flow_from_dataframe(
@@ -77,8 +76,6 @@ class InceptionV3Classifier:
                                                     momentum=0.9),
                            metrics=['accuracy'])
         self.model.summary()
-
-        self.model.save_weights("model.h5")
 
     def train_model(self):
 
