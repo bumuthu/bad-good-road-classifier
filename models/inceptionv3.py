@@ -24,23 +24,15 @@ class InceptionV3Classifier:
         self.y_test = y_test
 
     def prepare_data_generator(self):
-        train_gen = ImageDataGenerator(vertical_flip=True,
+        data_gen = ImageDataGenerator(vertical_flip=True,
                                       horizontal_flip=True,
                                       height_shift_range=0.3,
                                       width_shift_range=0.3,
                                       rotation_range=30,
-                                      rescale=1. / 255,
+                                      # rescale=1. / 255,
                                       preprocessing_function=preprocess_input)
 
-        test_gen = ImageDataGenerator(vertical_flip=True,
-                                       horizontal_flip=True,
-                                       height_shift_range=0.3,
-                                       width_shift_range=0.3,
-                                       rotation_range=30,
-                                       rescale=1. / 255,
-                                       preprocessing_function=preprocess_input)
-
-        self.train_data_gen = train_gen.flow_from_dataframe(
+        self.train_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
@@ -52,7 +44,7 @@ class InceptionV3Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
-        self.test_data_gen = test_gen.flow_from_dataframe(
+        self.test_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.test_df,
             directory=None,
             class_mode="categorical",
