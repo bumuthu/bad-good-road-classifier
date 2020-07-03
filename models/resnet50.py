@@ -75,7 +75,7 @@ class ResNet50Classifier:
         self.model = add_model
 
         self.model.compile(loss='categorical_crossentropy',
-                           optimizer=optimizers.SGD(lr=1e-2,
+                           optimizer=optimizers.SGD(lr=1e-3,
                                                     momentum=0.9),
                            metrics=['accuracy'])
         self.model.summary()
