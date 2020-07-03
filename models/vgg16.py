@@ -85,7 +85,6 @@ class VGG16Classifier:
 
         history = self.model.fit_generator(self.train_data_gen,
                                            epochs=self.epochs,
-                                           shuffle=True,
                                            verbose=True,
                                            callbacks=callbacks_list)
 
