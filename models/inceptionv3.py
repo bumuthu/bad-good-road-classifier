@@ -75,7 +75,6 @@ class InceptionV3Classifier:
         add_model = Sequential()
         add_model.add(base_model)
         add_model.add(GlobalAveragePooling2D())
-        add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dropout(0.5))
         add_model.add(Dense(2, activation='softmax'))
 
