@@ -7,7 +7,7 @@ from preprocessing import DataPreprocessing
 
 if __name__ == "__main__":
 
-    epochs = 10
+    epochs = 15
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset/'
     test_ratio = 0.3
     batch_size = 16
@@ -32,12 +32,17 @@ if __name__ == "__main__":
         model.evaluate_model()
 
     train_model(resnet50_model)
-    # train_model(xception_model)
-    # train_model(inceptionv3_model)
-    # train_model(vgg16_model)
-    # train_model(vgg19_model)
-
     evaluate_model(resnet50_model)
+    train_model(xception_model)
+    evaluate_model(xception_model)
+    train_model(inceptionv3_model)
+    evaluate_model(inceptionv3_model)
+    train_model(vgg16_model)
+    evaluate_model(vgg16_model)
+    train_model(vgg19_model)
+    evaluate_model(vgg19_model)
+
+    # evaluate_model(resnet50_model)
     # evaluate_model(xception_model)
     # evaluate_model(inceptionv3_model)
     # evaluate_model(vgg16_model)
