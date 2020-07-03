@@ -24,13 +24,21 @@ class InceptionV3Classifier:
         self.y_test = y_test
 
     def prepare_data_generator(self):
-        data_gen = ImageDataGenerator(vertical_flip=True,
+        train_gen = ImageDataGenerator(vertical_flip=True,
                                       horizontal_flip=True,
-                                      height_shift_range=0.1,
-                                      width_shift_range=0.1,
+                                      height_shift_range=0.3,
+                                      width_shift_range=0.3,
+                                      rotation_range=30,
                                       preprocessing_function=preprocess_input)
 
-        self.train_data_gen = data_gen.flow_from_dataframe(
+        test_gen = ImageDataGenerator(vertical_flip=True,
+                                       horizontal_flip=True,
+                                       height_shift_range=0.3,
+                                       width_shift_range=0.3,
+                                       rotation_range=30,
+                                       preprocessing_function=preprocess_input)
+
+        self.train_data_gen = train_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
@@ -41,7 +49,7 @@ class InceptionV3Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=64)
 
-        self.test_data_gen = data_gen.flow_from_dataframe(
+        self.test_data_gen = test_gen.flow_from_dataframe(
             dataframe=self.test_df,
             directory=None,
             x_col="filename",
@@ -61,10 +69,10 @@ class InceptionV3Classifier:
 
         add_model = Sequential()
         add_model.add(base_model)
-        add_model.add(GlobalAveragePooling2D())
+        add_model.add(Flatten())
+        add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dropout(0.5))
-        add_model.add(Dense(self.nclass,
-                            activation='softmax'))
+        add_model.add(Dense(self.nclass, activation='softmax'))
 
         self.model = add_model
         self.model.compile(loss='categorical_crossentropy',
@@ -75,7 +83,7 @@ class InceptionV3Classifier:
 
     def train_model(self):
 
-        file_path = "./weights.best.hdf5"
+        file_path = "weights.best.hdf5"
 
         checkpoint = ModelCheckpoint(filepath=file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
 
