@@ -14,7 +14,6 @@ from sklearn.metrics import classification_report
 class ResNet50Classifier:
 
     def __init__(self, train_df, test_df, y_test, epochs, batch_size):
-
         self.ROWS = 224
         self.COLS = 224
         self.batch_size = batch_size
@@ -58,36 +57,32 @@ class ResNet50Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
-
     def create_model(self):
-
         base_model = applications.ResNet50(weights='imagenet',
-                                              include_top=False,
-                                              input_shape=(self.ROWS, self.COLS, 3))
+                                           include_top=False,
+                                           input_shape=(self.ROWS, self.COLS, 3))
 
         for layer in base_model.layers[:5]:
             layer.trainable = False
 
         add_model = Sequential()
         add_model.add(base_model)
-        # add_model.add(GlobalMaxPooling2D())
         add_model.add(Flatten())
-        add_model.add(Dropout(0.5))
+        add_model.add(Dropout(0.4))
         add_model.add(Dense(1024, activation='relu'))
-        add_model.add(Dense(128, activation='relu'))
         add_model.add(Dense(2, activation='softmax'))
 
         self.model = add_model
 
         self.model.compile(loss='categorical_crossentropy',
-                           optimizer=optimizers.SGD(lr=1e-3,
+                           optimizer=optimizers.SGD(lr=1e-2,
                                                     momentum=0.9),
                            metrics=['accuracy'])
         self.model.summary()
 
     def train_model(self):
-
-        checkpoint = ModelCheckpoint(filepath=self.file_path, monitor='accuracy', verbose=1, save_best_only=True, mode='max')
+        checkpoint = ModelCheckpoint(filepath=self.file_path, monitor='accuracy', verbose=1, save_best_only=True,
+                                     mode='max')
         early = EarlyStopping(monitor="accuracy", mode="max", patience=15)
 
         callbacks_list = [checkpoint, early]  # early
@@ -108,4 +103,3 @@ class ResNet50Classifier:
         report = classification_report(self.y_test, predicts)
 
         print(report)
-
