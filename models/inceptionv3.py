@@ -14,8 +14,8 @@ class InceptionV3Classifier:
 
     def __init__(self, train_df, test_df, y_test, epochs, batch_size):
 
-        self.ROWS = 299
-        self.COLS = 299
+        self.ROWS = 139
+        self.COLS = 139
         self.batch_size = batch_size
         self.epochs = epochs
 
@@ -29,6 +29,7 @@ class InceptionV3Classifier:
                                       height_shift_range=0.3,
                                       width_shift_range=0.3,
                                       rotation_range=30,
+                                      shuffle=False,
                                       rescale=1. / 255,
                                       preprocessing_function=preprocess_input)
 
@@ -37,6 +38,7 @@ class InceptionV3Classifier:
                                        height_shift_range=0.3,
                                        width_shift_range=0.3,
                                        rotation_range=30,
+                                       shuffle=False,
                                        rescale=1. / 255,
                                        preprocessing_function=preprocess_input)
 
@@ -46,6 +48,7 @@ class InceptionV3Classifier:
             class_mode="categorical",
             x_col="filename",
             y_col="class",
+            shuffle=False,
             weight_col=None,
             classes=None,
             target_size=(self.ROWS, self.COLS),
@@ -54,14 +57,14 @@ class InceptionV3Classifier:
         self.test_data_gen = test_gen.flow_from_dataframe(
             dataframe=self.test_df,
             directory=None,
+            class_mode="categorical",
             x_col="filename",
             y_col="class",
+            shuffle=False,
             weight_col=None,
             classes=None,
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
-
-        print('iiiiiiiiiiiiiiiiiiiiii',self.test_data_gen.dataframe)
 
 
     def make_inceptionv3_model(self):
@@ -87,7 +90,7 @@ class InceptionV3Classifier:
 
     def train_model(self):
 
-        file_path = "weights.hdf5"
+        file_path = "weights.h5"
 
         checkpoint = ModelCheckpoint(filepath=file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
 
