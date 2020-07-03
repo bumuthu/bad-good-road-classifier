@@ -71,6 +71,7 @@ class InceptionV3Classifier:
         add_model.add(Dense(2, activation='softmax'))
 
         self.model = add_model
+
         self.model.compile(loss='categorical_crossentropy',
                            optimizer=optimizers.SGD(lr=1e-4,
                                                     momentum=0.9),
@@ -83,9 +84,8 @@ class InceptionV3Classifier:
 
         file_path = "weights.h5"
 
-        checkpoint = ModelCheckpoint(filepath=file_path, monitor='acc', verbose=1, save_best_only=True, mode='max')
-
-        early = EarlyStopping(monitor="accuracy", mode="max", patience=15)
+        checkpoint = ModelCheckpoint(filepath=file_path, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
+        early = EarlyStopping(monitor="val_accuracy", mode="max", patience=15)
 
         callbacks_list = [checkpoint, early]  # early
 
@@ -95,7 +95,7 @@ class InceptionV3Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        # self.model.load_weights(file_path)
+        self.model.load_weights(file_path)
 
     def evaluate_model(self):
 

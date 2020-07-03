@@ -7,10 +7,10 @@ from preprocessing import DataPreprocessing
 
 if __name__ == "__main__":
 
-    epochs = 1
+    epochs = 10
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset/'
     test_ratio = 0.3
-    batch_size = 16
+    batch_size = 32
 
     preproc = DataPreprocessing(data_path, test_ratio)
     preproc.prepare_image_path_df()
