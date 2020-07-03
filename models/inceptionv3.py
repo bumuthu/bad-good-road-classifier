@@ -84,8 +84,8 @@ class InceptionV3Classifier:
 
         file_path = "weights.h5"
 
-        checkpoint = ModelCheckpoint(filepath=file_path, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
-        early = EarlyStopping(monitor="val_accuracy", mode="max", patience=15)
+        checkpoint = ModelCheckpoint(filepath=file_path, monitor='accuracy', verbose=1, save_best_only=True, mode='max')
+        early = EarlyStopping(monitor="accuracy", mode="max", patience=15)
 
         callbacks_list = [checkpoint, early]  # early
 
