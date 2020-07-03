@@ -7,7 +7,7 @@ from preprocessing import DataPreprocessing
 
 if __name__ == "__main__":
 
-    epochs = 15
+    epochs = 20
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset/'
     test_ratio = 0.3
     batch_size = 16
