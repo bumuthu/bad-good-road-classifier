@@ -31,7 +31,7 @@ if __name__ == "__main__":
         model.create_model()
         model.evaluate_model()
 
-    # train_model(resnet50_model)
+    train_model(resnet50_model)
     # train_model(xception_model)
     # train_model(inceptionv3_model)
     # train_model(vgg16_model)
