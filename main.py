@@ -37,8 +37,8 @@ if __name__ == "__main__":
     # evaluate_model(xception_model)
     # train_model(inceptionv3_model)
     # evaluate_model(inceptionv3_model)
-    train_model(vgg19_model)
-    evaluate_model(vgg19_model)
+    # train_model(vgg19_model)
+    # evaluate_model(vgg19_model)
     train_model(vgg16_model)
     evaluate_model(vgg16_model)
 
