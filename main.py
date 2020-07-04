@@ -43,9 +43,8 @@ if __name__ == "__main__":
     # evaluate_model(vgg19_model)
     train_model(inceptionresnetv2_model)
     evaluate_model(train_model)
-
-    # train_model(vgg16_model)
-    # evaluate_model(vgg16_model)
+    train_model(vgg16_model)
+    evaluate_model(vgg16_model)
 
 
     # evaluate_model(resnet50_model)
