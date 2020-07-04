@@ -3,6 +3,7 @@ from models.vgg16 import VGG16Classifier
 from models.vgg19 import VGG19Classifier
 from models.resnet50 import ResNet50Classifier
 from models.xception import XceptionClassifier
+from models.inceptionresnetv2 import InceptionResNetV2Classifier
 from preprocessing import DataPreprocessing
 
 if __name__ == "__main__":
@@ -20,6 +21,7 @@ if __name__ == "__main__":
     inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
     resnet50_model = ResNet50Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
     xception_model = XceptionClassifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+    inceptionresnetv2_model = InceptionResNetV2Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
 
     def train_model(model):
         model.prepare_data_generator()
@@ -39,8 +41,10 @@ if __name__ == "__main__":
     # evaluate_model(inceptionv3_model)
     # train_model(vgg19_model)
     # evaluate_model(vgg19_model)
-    train_model(vgg16_model)
-    evaluate_model(vgg16_model)
+    train_model(inceptionresnetv2_model)
+    evaluate_model(train_model)
+    # train_model(vgg16_model)
+    # evaluate_model(vgg16_model)
 
 
     # evaluate_model(resnet50_model)
@@ -48,3 +52,4 @@ if __name__ == "__main__":
     # evaluate_model(inceptionv3_model)
     # evaluate_model(vgg16_model)
     # evaluate_model(vgg19_model)
+    # evaluate_model(train_model)

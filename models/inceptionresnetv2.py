@@ -1,7 +1,7 @@
 import numpy as np
 import json
 from keras.preprocessing.image import ImageDataGenerator
-from keras.applications.vgg16 import preprocess_input
+from keras.applications.inception_resnet_v2 import preprocess_input
 from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau, TensorBoard
 from keras import optimizers, losses, activations, models
@@ -11,14 +11,14 @@ from keras import applications
 from sklearn.metrics import classification_report
 
 
-class VGG16Classifier:
+class InceptionResNetV2Classifier:
 
     def __init__(self, train_df, test_df, y_test, epochs, batch_size):
-        self.ROWS = 224
-        self.COLS = 224
+        self.ROWS = 299
+        self.COLS = 299
         self.batch_size = batch_size
         self.epochs = epochs
-        self.file_path = "./weights/weights-vgg16.h5"
+        self.file_path = "./weights/weights-inceptionresnetv2.h5"
 
         self.train_df = train_df
         self.test_df = test_df
@@ -59,7 +59,7 @@ class VGG16Classifier:
             batch_size=self.batch_size)
 
     def create_model(self):
-        base_model = applications.VGG16(weights='imagenet',
+        base_model = applications.InceptionResNetV2(weights='imagenet',
                                         include_top=False,
                                         input_shape=(self.ROWS, self.COLS, 3))
 
@@ -95,7 +95,7 @@ class VGG16Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        with open('./history/vgg16.json', 'w') as f:
+        with open('./history/inceptionresnetv2.json', 'w') as f:
             json.dump(history.history, f)
 
     def evaluate_model(self):
