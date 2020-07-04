@@ -8,9 +8,16 @@ from preprocessing import DataPreprocessing
 
 if __name__ == "__main__":
 
+    # number of epochs
     epochs = 30
-    data_path = '/home/bumuthudilshanhhk/Downloads/dataset/'
+
+    # select the path to data directory
+    data_path = '<path to dataset>'
+
+    # data split ratio for training and testing
     test_ratio = 0.3
+
+    # batch size for training
     batch_size = 16
 
     preproc = DataPreprocessing(data_path, test_ratio)
@@ -33,17 +40,21 @@ if __name__ == "__main__":
         model.create_model()
         model.evaluate_model()
 
+    # uncomment followings for training
+
     # train_model(resnet50_model)
     # train_model(xception_model)
     # train_model(inceptionv3_model)
     # train_model(vgg19_model)
-    # train_model(vgg16_model)
-    # train_model(inceptionresnetv2_model)
 
-    evaluate_model(inceptionresnetv2_model)
-    evaluate_model(resnet50_model)
-    evaluate_model(xception_model)
-    evaluate_model(inceptionv3_model)
-    evaluate_model(vgg16_model)
-    evaluate_model(vgg19_model)
+    train_model(inceptionresnetv2_model)
+    train_model(vgg16_model)
+
+    # evaluate_model(resnet50_model)
+    # evaluate_model(xception_model)
+    # evaluate_model(inceptionv3_model)
+    # evaluate_model(inceptionresnetv2_model)
+    # evaluate_model(vgg19_model)
+    # evaluate_model(vgg16_model)
+
 
