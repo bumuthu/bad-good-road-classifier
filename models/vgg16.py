@@ -1,7 +1,7 @@
 import numpy as np
 import json
 from keras.preprocessing.image import ImageDataGenerator
-from keras.applications.vgg16 import preprocess_input
+from keras.applications.vgg19 import preprocess_input
 from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau, TensorBoard
 from keras import optimizers, losses, activations, models
@@ -59,7 +59,7 @@ class VGG16Classifier:
             batch_size=self.batch_size)
 
     def create_model(self):
-        base_model = applications.VGG16(weights='imagenet',
+        base_model = applications.VGG19(weights='imagenet',
                                         include_top=False,
                                         input_shape=(self.ROWS, self.COLS, 3))
 
