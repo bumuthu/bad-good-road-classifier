@@ -12,7 +12,8 @@ if __name__ == "__main__":
     epochs = 30
 
     # select the path to data directory
-    data_path = '<path to dataset>'
+    # '<path to dataset>'
+    data_path = '/home/bumuthudilshanhhk/Downloads/dataset/'
 
     # data split ratio for training and testing
     test_ratio = 0.3
