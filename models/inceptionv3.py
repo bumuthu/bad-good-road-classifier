@@ -46,7 +46,7 @@ class InceptionV3Classifier:
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
-        self.test_data_gen = data_gen.flow_from_dataframe(
+        self.test_data_gen = test_data_gen.flow_from_dataframe(
             dataframe=self.test_df,
             directory=None,
             class_mode="categorical",
