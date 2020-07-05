@@ -12,7 +12,7 @@ from sklearn.metrics import classification_report
 
 class InceptionV3Classifier:
 
-    def __init__(self, train_df, test_df, y_test, y_train, epochs, batch_size):
+    def __init__(self, train_df, test_df, y_test, epochs, batch_size):
         self.ROWS = 299
         self.COLS = 299
         self.batch_size = batch_size
