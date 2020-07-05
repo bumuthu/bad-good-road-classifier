@@ -47,15 +47,16 @@ if __name__ == "__main__":
     # train_model(xception_model)
     # train_model(inceptionv3_model)
     # train_model(vgg19_model)
-
     # train_model(vgg16_model)
+    # train_model(inceptionresnetv2_model)
 
     evaluate_model(resnet50_model)
     evaluate_model(xception_model)
     evaluate_model(inceptionv3_model)
-    # evaluate_model(inceptionresnetv2_model)
     evaluate_model(vgg19_model)
+    evaluate_model(inceptionresnetv2_model)
+    evaluate_model(vgg16_model)
 
-    train_model(inceptionresnetv2_model)
+
 
 

@@ -10,10 +10,9 @@ from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, MaxPooli
 from keras import applications
 from sklearn.metrics import classification_report
 
-
 class InceptionV3Classifier:
 
-    def __init__(self, train_df, test_df, y_test, epochs, batch_size):
+    def __init__(self, train_df, test_df, y_test, y_train, epochs, batch_size):
         self.ROWS = 299
         self.COLS = 299
         self.batch_size = batch_size
@@ -103,6 +102,11 @@ class InceptionV3Classifier:
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         predicts = np.argmax(predicts, axis=1)
 
-        report = classification_report(self.y_test, predicts)
+        val_data = { 'target' : self.y_test, 'prediction' : predicts }
 
+        with open('./validation/inceptionv3.json', 'w') as f:
+            json.dump(val_data, f)
+
+        report = classification_report(self.y_test, predicts)
         print(report)
+
