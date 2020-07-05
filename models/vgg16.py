@@ -103,6 +103,8 @@ class VGG16Classifier:
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         predicts = np.argmax(predicts, axis=1)
 
+        predicts = [int(i) for i in predicts]
+
         val_data = { 'target' : self.y_test, 'prediction' : predicts }
 
         with open('./validation/vgg16.json', 'w') as f:
