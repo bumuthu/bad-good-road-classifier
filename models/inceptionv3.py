@@ -90,7 +90,7 @@ class InceptionV3Classifier:
         callbacks_list = [checkpoint, early]  # early
 
         history = self.model.fit_generator(self.train_data_gen,
-                                           validation_data=self.train_data_gen,
+                                           validation_data=self.test_data_gen,
                                            epochs=self.epochs,
                                            verbose=True,
                                            callbacks=callbacks_list)
