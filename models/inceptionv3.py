@@ -31,7 +31,12 @@ class InceptionV3Classifier:
                                             rotation_range=30,
                                             preprocessing_function=preprocess_input)
 
-        test_data_gen = ImageDataGenerator(preprocessing_function=preprocess_input)
+        test_data_gen = ImageDataGenerator(vertical_flip=False,
+                                            horizontal_flip=True,
+                                            height_shift_range=0.3,
+                                            width_shift_range=0.3,
+                                            rotation_range=30,
+                                            preprocessing_function=preprocess_input)
 
         self.train_data_gen = train_data_gen.flow_from_dataframe(
             dataframe=self.train_df,
