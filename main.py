@@ -9,7 +9,7 @@ from preprocessing import DataPreprocessing
 if __name__ == "__main__":
 
     # number of epochs
-    epochs = 3
+    epochs = 30
 
     # select the path to data directory
     # '<path to dataset>'
