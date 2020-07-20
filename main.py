@@ -9,7 +9,7 @@ from preprocessing import DataPreprocessing
 if __name__ == "__main__":
 
     # number of epochs
-    epochs = 30
+    epochs = 1
 
     # select the path to data directory
     # '<path to dataset>'
@@ -24,7 +24,6 @@ if __name__ == "__main__":
     preproc = DataPreprocessing(data_path, test_ratio)
     preproc.prepare_image_path_df()
 
-    vgg16_model = VGG16Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
     vgg19_model = VGG19Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
     inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
     resnet50_model = ResNet50Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
@@ -45,17 +44,15 @@ if __name__ == "__main__":
 
     # train_model(resnet50_model)
     # train_model(xception_model)
-    # train_model(inceptionv3_model)
+    train_model(inceptionv3_model)
     # train_model(vgg19_model)
-    # train_model(vgg16_model)
-    train_model(inceptionresnetv2_model)
+    # train_model(inceptionresnetv2_model)
 
     # evaluate_model(resnet50_model)
     # evaluate_model(xception_model)
-    # evaluate_model(inceptionv3_model)
+    evaluate_model(inceptionv3_model)
     # evaluate_model(vgg19_model)
     # evaluate_model(inceptionresnetv2_model)
-    # evaluate_model(vgg16_model)
 
 
 
