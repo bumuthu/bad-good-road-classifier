@@ -68,9 +68,9 @@ class InceptionV3Classifier:
         add_model = Sequential()
         add_model.add(base_model)
         add_model.add(Flatten())
-        # add_model.add(Dropout(0.2))
+        add_model.add(Dropout(0.2))
         add_model.add(Dense(1024, activation='relu'))
-        # add_model.add(Dropout(0.3))
+        add_model.add(Dropout(0.3))
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dense(2, activation='softmax'))
 
@@ -90,7 +90,7 @@ class InceptionV3Classifier:
         callbacks_list = [checkpoint, early]  # early
 
         history = self.model.fit_generator(self.train_data_gen,
-                                           validation_data=self.test_data_gen,
+                                           validation_data=self.train_data_gen,
                                            epochs=self.epochs,
                                            verbose=True,
                                            callbacks=callbacks_list)

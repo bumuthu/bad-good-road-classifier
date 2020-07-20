@@ -16,7 +16,7 @@ if __name__ == "__main__":
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset/'
 
     # data split ratio for training and testing
-    test_ratio = 0.3
+    test_ratio = 0.9
 
     # batch size for training
     batch_size = 16
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     # evaluate_model(resnet50_model)
     # evaluate_model(xception_model)
-    evaluate_model(inceptionv3_model)
+    # evaluate_model(inceptionv3_model)
     # evaluate_model(vgg19_model)
     # evaluate_model(inceptionresnetv2_model)
 
