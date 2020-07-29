@@ -8,7 +8,7 @@ from keras import optimizers, losses, activations, models
 from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, MaxPooling2D, BatchNormalization, \
     GlobalAveragePooling2D, Concatenate
 from keras import applications
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, accuracy_score
 
 
 class VGG19Classifier:
@@ -108,9 +108,11 @@ class VGG19Classifier:
 
         val_data = { 'target' : self.y_test, 'prediction' : predicts }
 
-        with open('./validation/vgg19.' + noise + '.json', 'w') as f:
+        with open('./validation/vgg19' + noise + '.json', 'w') as f:
             json.dump(val_data, f)
 
         report = classification_report(self.y_test, predicts)
 
         print(report)
+
+        return accuracy_score(self.y_test, predicts)

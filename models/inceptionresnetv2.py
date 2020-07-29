@@ -8,7 +8,7 @@ from keras import optimizers, losses, activations, models
 from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, MaxPooling2D, BatchNormalization, \
     GlobalAveragePooling2D, Concatenate
 from keras import applications
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, accuracy_score
 
 
 class InceptionResNetV2Classifier:
@@ -114,3 +114,5 @@ class InceptionResNetV2Classifier:
         report = classification_report(self.y_test, predicts)
 
         print(report)
+
+        return accuracy_score(self.y_test, predicts)
