@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     results = {"resnet": [], "xception": [], "inceptionv3": [], "vgg19":[], "inceptionresnetv2": []}
 
-    for func in ['sp', 'rand']:
+    for func in ['rand']:
         for level in noise_levels:
 
             preproc = DataPreprocessing(data_path, test_ratio)
