@@ -33,7 +33,7 @@ if __name__ == "__main__":
         model.evaluate_model(noise)
 
 
-    noise_levels = [0.05, 0.1, 0.2, 0.3]
+    noise_levels = [0.05, 0.1, 0.2]
 
     results = {"resnet": [], "xception": [], "inceptionv3": [], "vgg19":[], "inceptionresnetv2": []}
 
@@ -50,15 +50,16 @@ if __name__ == "__main__":
             inceptionresnetv2_model = InceptionResNetV2Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
 
             noise = func + str(level)
+            noise_attr = func+ '-level-' + str(level)
 
-            results["resnet"].append({noise : evaluate_model(resnet50_model, noise)})
-            results["xception"].append({noise: evaluate_model(xception_model, noise)})
-            results["inceptionv3"].append({noise: evaluate_model(inceptionv3_model, noise)})
-            results["vgg19"].append({noise: evaluate_model(vgg19_model, noise)})
-            results["inceptionresnetv2"].append({noise: evaluate_model(inceptionresnetv2_model, noise)})
+            results["resnet"].append({noise_attr : evaluate_model(resnet50_model, noise)})
+            results["xception"].append({noise_attr: evaluate_model(xception_model, noise)})
+            results["inceptionv3"].append({noise_attr: evaluate_model(inceptionv3_model, noise)})
+            results["vgg19"].append({noise_attr: evaluate_model(vgg19_model, noise)})
+            results["inceptionresnetv2"].append({noise_attr: evaluate_model(inceptionresnetv2_model, noise)})
 
-    with open('./noise.json', 'w') as f:
-        json.dump(results, f)
+            with open('./noise.json', 'w') as f:
+                json.dump(results, f)
 
     # uncomment followings for training
 
