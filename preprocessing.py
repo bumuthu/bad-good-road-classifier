@@ -131,7 +131,7 @@ class DataPreprocessing:
         out = image + noise_level * image.std() * np.random.random(image.shape)
         return out
 
-    def add_sp_noises(self, paths):
+    def save_sp_noises(self, paths):
         # new_dict = []
         noise_levels = [0.05, 0.1, 0.2, 0.3]
         for n in noise_levels:
@@ -145,7 +145,7 @@ class DataPreprocessing:
             # new_dict.append({"filename": new_path, "class": p["class"]})
         # return new_dict
 
-    def add_rand_noises(self, paths):
+    def save_rand_noises(self, paths):
         # new_dict = []
         noise_levels = [0.05, 0.1, 0.2, 0.3]
         for n in noise_levels:
@@ -158,6 +158,31 @@ class DataPreprocessing:
 
             # new_dict.append({"filename": new_path, "class": p["class"]})
         # return new_dict
+
+    def add_sp_noises(self, paths):
+        new_dict = []
+        noise_levels = [0.05, 0.1, 0.2, 0.3]
+        n = noise_levels[2]
+
+        for p in paths:
+            path = p["filename"]
+            new_path = self.data_dir + 'sp' + str(n) + '/' + os.path.basename(path)
+
+            new_dict.append({"filename": new_path, "class": p["class"]})
+        return new_dict
+
+    def add_rand_noises(self, paths):
+
+        new_dict = []
+        noise_levels = [0.05, 0.1, 0.2, 0.3]
+        n = noise_levels[2]
+
+        for p in paths:
+            path = p["filename"]
+            new_path = self.data_dir + 'rand' + str(n) + '/' + os.path.basename(path)
+
+            new_dict.append({"filename": new_path, "class": p["class"]})
+        return new_dict
 
     def prepare_image_path_df(self):
         paths = []
@@ -176,9 +201,8 @@ class DataPreprocessing:
         train_path_dict = [{"filename": paths_train[i], "class": str(y_train[i])} for i in range(len(paths_train))]
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
 
-        # print(test_path_dict[:10])
-        # test_path_dict = self.add_sp_noises(test_path_dict)
-        test_path_dict = self.add_rand_noises(test_path_dict)
+        test_path_dict = self.add_sp_noises(test_path_dict)
+        # test_path_dict = self.add_rand_noises(test_path_dict)
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
