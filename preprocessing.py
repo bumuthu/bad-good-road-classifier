@@ -201,7 +201,7 @@ class DataPreprocessing:
         train_path_dict = [{"filename": paths_train[i], "class": str(y_train[i])} for i in range(len(paths_train))]
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
 
-        test_path_dict = self.add_sp_noises(test_path_dict)
+        # test_path_dict = self.add_sp_noises(test_path_dict)
         # test_path_dict = self.add_rand_noises(test_path_dict)
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
