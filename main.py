@@ -46,7 +46,7 @@ if __name__ == "__main__":
             xception_model = XceptionClassifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
             inceptionresnetv2_model = InceptionResNetV2Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
 
-            noise = func + level
+            noise = func + str(level)
 
             evaluate_model(resnet50_model, noise)
             evaluate_model(xception_model, noise)
