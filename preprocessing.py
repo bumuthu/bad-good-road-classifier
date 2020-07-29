@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
-
+import cv2
 
 class DataPreprocessing:
 
@@ -27,6 +27,8 @@ class DataPreprocessing:
 
         train_path_dict = [{"filename": paths_train[i], "class": str(y_train[i])} for i in range(len(paths_train))]
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
+
+        print(test_path_dict[:10])
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
