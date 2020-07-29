@@ -131,8 +131,8 @@ class DataPreprocessing:
         out = image + noise_level * image.std() * np.random.random(image.shape)
         return out
 
+    # Save sault and pepper noisy images in a datset directory
     def save_sp_noises(self, paths):
-        # new_dict = []
         noise_levels = [0.05, 0.1, 0.2, 0.3]
         for n in noise_levels:
             for p in paths:
@@ -142,11 +142,8 @@ class DataPreprocessing:
                 new_path = self.data_dir + 'sp' + str(n) + '/' + os.path.basename(path)
                 cv2.imwrite(new_path, img_new)
 
-            # new_dict.append({"filename": new_path, "class": p["class"]})
-        # return new_dict
-
+    # Save random noisy images in a datset directory
     def save_rand_noises(self, paths):
-        # new_dict = []
         noise_levels = [0.05, 0.1, 0.2, 0.3]
         for n in noise_levels:
             for p in paths:
@@ -156,9 +153,7 @@ class DataPreprocessing:
                 new_path = self.data_dir + 'rand' + str(n) + '/' + os.path.basename(path)
                 cv2.imwrite(new_path, img_new)
 
-            # new_dict.append({"filename": new_path, "class": p["class"]})
-        # return new_dict
-
+    # Read sault and pepper noisy images
     def add_sp_noises(self, paths, level):
         new_dict = []
         n = level
@@ -170,6 +165,7 @@ class DataPreprocessing:
             new_dict.append({"filename": new_path, "class": p["class"]})
         return new_dict
 
+    # Read random noisy images
     def add_rand_noises(self, paths, level):
 
         new_dict = []
@@ -197,6 +193,9 @@ class DataPreprocessing:
                                                                     random_state=42, shuffle=True)
         train_path_dict = [{"filename": paths_train[i], "class": str(y_train[i])} for i in range(len(paths_train))]
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
+
+        # self.save_sp_noises(test_path_dict)
+        # self.save_rand_noises(test_path_dict)
 
         if func == 'sp':
             test_path_dict = self.add_sp_noises(test_path_dict, level)

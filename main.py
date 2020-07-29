@@ -32,13 +32,12 @@ if __name__ == "__main__":
         model.create_model()
         return model.evaluate_model(noise)
 
-
     noise_levels = [0.05, 0.1, 0.2]
-
 
     results = {"resnet": [], "xception": [], "inceptionv3": [], "vgg19":[], "inceptionresnetv2": []}
 
-    for func in ['rand']:
+    # Testing for noisy images
+    for func in ['sp','rand']:
         for level in noise_levels:
 
             preproc = DataPreprocessing(data_path, test_ratio)
