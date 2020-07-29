@@ -35,6 +35,7 @@ if __name__ == "__main__":
 
     noise_levels = [0.05, 0.1, 0.2]
 
+
     results = {"resnet": [], "xception": [], "inceptionv3": [], "vgg19":[], "inceptionresnetv2": []}
 
     for func in ['rand']:
