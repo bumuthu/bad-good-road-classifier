@@ -132,16 +132,19 @@ class DataPreprocessing:
         return out
 
     def add_noises(self, paths):
-        new_dict = []
-        for p in paths:
-            path = p["filename"]
-            img = cv2.imread(path)
-            img_new = self.salt_pepper(img, 0.2)
-            new_path = self.data_dir + 'sp0.2/' + os.path.basename(path)
-            cv2.imwrite(new_path, img_new)
-            p["filename"] = new_path
-            new_dict.append({"filename": new_path, "class": p["class"]})
-        return new_dict
+        # new_dict = []
+        noise_levels = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
+        for n in noise_levels:
+            for p in paths:
+                path = p["filename"]
+                img = cv2.imread(path)
+                img_new = self.salt_pepper(img, n)
+                new_path = self.data_dir + 'sp' + str(n) + '/' + os.path.basename(path)
+                cv2.imwrite(new_path, img_new)
+                p["filename"] = new_path
+
+            # new_dict.append({"filename": new_path, "class": p["class"]})
+        # return new_dict
 
     def prepare_image_path_df(self):
         paths = []
