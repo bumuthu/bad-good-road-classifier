@@ -199,9 +199,9 @@ class DataPreprocessing:
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
 
         if func == 'sp':
-            test_path_dict = self.add_sp_noises(test_path_dict)
+            test_path_dict = self.add_sp_noises(test_path_dict, level)
         elif func == 'rand':
-            test_path_dict = self.add_rand_noises(test_path_dict)
+            test_path_dict = self.add_rand_noises(test_path_dict, level)
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
