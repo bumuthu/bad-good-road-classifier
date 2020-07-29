@@ -131,9 +131,9 @@ class DataPreprocessing:
         out = image + noise_level * image.std() * np.random.random(image.shape)
         return out
 
-    def add_noises(self, paths):
+    def add_sp_noises(self, paths):
         # new_dict = []
-        noise_levels = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
+        noise_levels = [0.05, 0.1, 0.2, 0.3]
         for n in noise_levels:
             for p in paths:
                 path = p["filename"]
@@ -141,7 +141,20 @@ class DataPreprocessing:
                 img_new = self.salt_pepper(img, n)
                 new_path = self.data_dir + 'sp' + str(n) + '/' + os.path.basename(path)
                 cv2.imwrite(new_path, img_new)
-                p["filename"] = new_path
+
+            # new_dict.append({"filename": new_path, "class": p["class"]})
+        # return new_dict
+
+    def add_rand_noises(self, paths):
+        # new_dict = []
+        noise_levels = [0.05, 0.1, 0.2, 0.3]
+        for n in noise_levels:
+            for p in paths:
+                path = p["filename"]
+                img = cv2.imread(path)
+                img_new = self.salt_pepper(img, n)
+                new_path = self.data_dir + 'rand' + str(n) + '/' + os.path.basename(path)
+                cv2.imwrite(new_path, img_new)
 
             # new_dict.append({"filename": new_path, "class": p["class"]})
         # return new_dict
@@ -164,7 +177,8 @@ class DataPreprocessing:
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
 
         # print(test_path_dict[:10])
-        test_path_dict = self.add_noises(test_path_dict)
+        # test_path_dict = self.add_sp_noises(test_path_dict)
+        test_path_dict = self.add_rand_noises(test_path_dict)
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
