@@ -21,24 +21,38 @@ if __name__ == "__main__":
     # batch size for training
     batch_size = 16
 
-    preproc = DataPreprocessing(data_path, test_ratio)
-    preproc.prepare_image_path_df()
-
-    vgg19_model = VGG19Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
-    inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
-    resnet50_model = ResNet50Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
-    xception_model = XceptionClassifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
-    inceptionresnetv2_model = InceptionResNetV2Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
-
     def train_model(model):
         model.prepare_data_generator()
         model.create_model()
         model.train_model()
 
-    def evaluate_model(model):
+    def evaluate_model(model, noise):
         model.prepare_data_generator()
         model.create_model()
-        model.evaluate_model()
+        model.evaluate_model(noise)
+
+
+    noise_levels = [0.05, 0.1, 0.2, 0.3]
+
+    for func in ['sp', 'rand']:
+        for level in noise_levels:
+
+            preproc = DataPreprocessing(data_path, test_ratio)
+            preproc.prepare_image_path_df(func, level)
+
+            vgg19_model = VGG19Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+            inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+            resnet50_model = ResNet50Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+            xception_model = XceptionClassifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+            inceptionresnetv2_model = InceptionResNetV2Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+
+            noise = func + level
+
+            evaluate_model(resnet50_model, noise)
+            evaluate_model(xception_model, noise)
+            evaluate_model(inceptionv3_model, noise)
+            evaluate_model(vgg19_model, noise)
+            evaluate_model(inceptionresnetv2_model, noise)
 
     # uncomment followings for training
 
@@ -47,13 +61,4 @@ if __name__ == "__main__":
     # train_model(inceptionv3_model)
     # train_model(vgg19_model)
     # train_model(inceptionresnetv2_model)
-
-    evaluate_model(resnet50_model)
-    evaluate_model(xception_model)
-    evaluate_model(inceptionv3_model)
-    evaluate_model(vgg19_model)
-    evaluate_model(inceptionresnetv2_model)
-
-
-
 

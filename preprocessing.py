@@ -159,10 +159,9 @@ class DataPreprocessing:
             # new_dict.append({"filename": new_path, "class": p["class"]})
         # return new_dict
 
-    def add_sp_noises(self, paths):
+    def add_sp_noises(self, paths, level):
         new_dict = []
-        noise_levels = [0.05, 0.1, 0.2, 0.3]
-        n = noise_levels[2]
+        n = level
 
         for p in paths:
             path = p["filename"]
@@ -171,11 +170,10 @@ class DataPreprocessing:
             new_dict.append({"filename": new_path, "class": p["class"]})
         return new_dict
 
-    def add_rand_noises(self, paths):
+    def add_rand_noises(self, paths, level):
 
         new_dict = []
-        noise_levels = [0.05, 0.1, 0.2, 0.3]
-        n = noise_levels[2]
+        n = level
 
         for p in paths:
             path = p["filename"]
@@ -184,7 +182,7 @@ class DataPreprocessing:
             new_dict.append({"filename": new_path, "class": p["class"]})
         return new_dict
 
-    def prepare_image_path_df(self):
+    def prepare_image_path_df(self, func, level):
         paths = []
         y = []
 
@@ -197,12 +195,13 @@ class DataPreprocessing:
 
         paths_train, paths_test, y_train, y_test = train_test_split(paths, y, test_size=self.test_ratio,
                                                                     random_state=42, shuffle=True)
-
         train_path_dict = [{"filename": paths_train[i], "class": str(y_train[i])} for i in range(len(paths_train))]
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
 
-        # test_path_dict = self.add_sp_noises(test_path_dict)
-        # test_path_dict = self.add_rand_noises(test_path_dict)
+        if func == 'sp':
+            test_path_dict = self.add_sp_noises(test_path_dict)
+        elif func == 'rand':
+            test_path_dict = self.add_rand_noises(test_path_dict)
 
         self.train_df = pd.DataFrame.from_dict(train_path_dict)
         self.test_df = pd.DataFrame.from_dict(test_path_dict)

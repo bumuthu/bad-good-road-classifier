@@ -98,7 +98,7 @@ class InceptionV3Classifier:
         with open('./history/inceptionv3.json', 'w') as f:
             json.dump(history.history, f)
 
-    def evaluate_model(self):
+    def evaluate_model(self, noise):
         self.model.load_weights(self.file_path)
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         predicts = np.argmax(predicts, axis=1)
@@ -107,7 +107,7 @@ class InceptionV3Classifier:
 
         val_data = { 'target' : self.y_test, 'prediction' : predicts }
 
-        with open('./validation/inceptionv3.json', 'w') as f:
+        with open('./validation/inceptionv3' + noise + '.json', 'w') as f:
             json.dump(val_data, f)
 
         report = classification_report(self.y_test, predicts)
