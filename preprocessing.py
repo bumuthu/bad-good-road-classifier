@@ -136,8 +136,8 @@ class DataPreprocessing:
         for p in paths:
             path = p["filename"]
             img = cv2.imread(path)
-            img_new = self.salt_pepper(img, 0.8)
-            new_path = self.data_dir + 'sp0.8/' + os.path.basename(path)
+            img_new = self.salt_pepper(img, 0.2)
+            new_path = self.data_dir + 'sp0.2/' + os.path.basename(path)
             cv2.imwrite(new_path, img_new)
             p["filename"] = new_path
             new_dict.append({"filename": new_path, "class": p["class"]})
