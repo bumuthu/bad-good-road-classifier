@@ -30,7 +30,7 @@ if __name__ == "__main__":
     def evaluate_model(model, noise):
         model.prepare_data_generator()
         model.create_model()
-        model.evaluate_model(noise)
+        return model.evaluate_model(noise)
 
 
     noise_levels = [0.05, 0.1, 0.2]
