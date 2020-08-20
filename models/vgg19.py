@@ -18,7 +18,7 @@ class VGG19Classifier:
         self.COLS = 224
         self.batch_size = batch_size
         self.epochs = epochs
-        self.file_path = "./weights/weights-vgg19.h5"
+        self.file_path = "./weights-new/weights-vgg19.h5"
 
         self.train_df = train_df
         self.test_df = test_df
@@ -96,7 +96,7 @@ class VGG19Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        with open('./history/vgg19.json', 'w') as f:
+        with open('./history-new/vgg19.json', 'w') as f:
             json.dump(history.history, f)
 
     def evaluate_model(self):
@@ -108,7 +108,7 @@ class VGG19Classifier:
 
         val_data = { 'target' : self.y_test, 'prediction' : predicts }
 
-        with open('./validation/vgg19.json', 'w') as f:
+        with open('./validation-new/vgg19.json', 'w') as f:
             json.dump(val_data, f)
 
         report = classification_report(self.y_test, predicts)
