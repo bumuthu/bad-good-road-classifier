@@ -41,8 +41,7 @@ class VGG19Classifier:
             x_col="filename",
             y_col="class",
             shuffle=False,
-            weight_col=None,
-            classes=None,
+            classes=['crack', 'pothole'],
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
@@ -53,8 +52,7 @@ class VGG19Classifier:
             x_col="filename",
             y_col="class",
             shuffle=False,
-            weight_col=None,
-            classes=None,
+            classes=['crack', 'pothole'],
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
