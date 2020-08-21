@@ -18,7 +18,7 @@ class ResNet50Classifier:
         self.COLS = 224
         self.batch_size = batch_size
         self.epochs = epochs
-        self.file_path = "./weights/weights-resnet50.h5"
+        self.file_path = "./weights-new/weights-resnet50.h5"
 
         self.train_df = train_df
         self.test_df = test_df
@@ -41,8 +41,7 @@ class ResNet50Classifier:
             x_col="filename",
             y_col="class",
             shuffle=False,
-            weight_col=None,
-            classes=None,
+            classes=['crack', 'pothole'],
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
@@ -53,8 +52,7 @@ class ResNet50Classifier:
             x_col="filename",
             y_col="class",
             shuffle=False,
-            weight_col=None,
-            classes=None,
+            classes=['crack', 'pothole'],
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
@@ -77,7 +75,7 @@ class ResNet50Classifier:
 
         self.model = add_model
 
-        self.model.compile(loss='categorical_crossentropy',
+        self.model.compile(loss='binary_crossentropy',
                            optimizer=optimizers.SGD(lr=1e-3,
                                                     momentum=0.9),
                            metrics=['accuracy'])
@@ -96,21 +94,15 @@ class ResNet50Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        with open('./history/resnet50.json', 'w') as f:
+        with open('./history-new/resnet50.json', 'w') as f:
             json.dump(history.history, f)
 
     def evaluate_model(self):
         self.model.load_weights(self.file_path)
-        predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
-        predicts = np.argmax(predicts, axis=1)
+        predicts = self.model.predict(self.test_data_gen, verbose=True, batch_size=self.batch_size)
 
-        predicts = [ int(i) for i in predicts]
+        val_data = { 'target' : self.y_test, 'prediction' : predicts.tolist() }
 
-        val_data = { 'target' : self.y_test, 'prediction' : predicts }
-
-        with open('./validation/resnet50.json', 'w') as f:
+        with open('./validation-new/resnet50.json', 'w') as f:
             json.dump(val_data, f)
 
-        report = classification_report(self.y_test, predicts)
-
-        print(report)

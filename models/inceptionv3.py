@@ -99,13 +99,9 @@ class InceptionV3Classifier:
     def evaluate_model(self):
         self.model.load_weights(self.file_path)
         predicts = self.model.predict(self.test_data_gen, verbose=True, batch_size=self.batch_size)
-        # predicts = np.argmax(predicts, axis=1)
 
         val_data = { 'target' : self.y_test, 'prediction' : predicts.tolist()}
 
         with open('./validation-new/inceptionv3.json', 'w') as f:
             json.dump(val_data, f)
-
-        # report = classification_report(self.y_test, predicts)
-        # print(report)
 
