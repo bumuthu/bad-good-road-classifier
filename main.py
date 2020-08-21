@@ -9,7 +9,7 @@ from preprocessing import DataPreprocessing
 if __name__ == "__main__":
 
     # number of epochs
-    epochs = 3
+    epochs = 1
 
     # select the path to data directory
     # '<path to dataset>'
@@ -41,7 +41,7 @@ if __name__ == "__main__":
         model.evaluate_model()
 
     # uncomment followings for training
-    # train_model(vgg19_model)
+    train_model(vgg19_model)
     # train_model(inceptionresnetv2_model)
     # train_model(resnet50_model)
     # train_model(xception_model)
