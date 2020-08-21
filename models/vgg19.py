@@ -104,7 +104,7 @@ class VGG19Classifier:
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         # predicts = np.argmax(predicts, axis=1)
 
-        val_data = { 'target' : self.y_test, 'prediction' : predicts }
+        val_data = { 'target' : self.y_test, 'prediction' : predicts.tolist() }
 
         with open('./validation-new/vgg19.json', 'w') as f:
             json.dump(val_data, f)
