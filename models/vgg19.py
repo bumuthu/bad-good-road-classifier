@@ -101,10 +101,10 @@ class VGG19Classifier:
 
     def evaluate_model(self):
         self.model.load_weights(self.file_path)
-        predicts = self.model.predict(self.test_data_gen, verbose=True, workers=2)
+        predicts = self.model.predict(self.test_data_gen, verbose=True, batch_size=16)
         # predicts = np.argmax(predicts, axis=1)
 
-        val_data = { 'target' : self.y_test, 'prediction' : predicts.tolist() }
+        val_data = { 'target' : self.y_test, 'prediction' : predicts.tolist()}
 
         with open('./validation-new/vgg19.json', 'w') as f:
             json.dump(val_data, f)
