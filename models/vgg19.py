@@ -73,11 +73,11 @@ class VGG19Classifier:
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dropout(0.3))
         add_model.add(Dense(1024, activation='relu'))
-        add_model.add(Dense(2, activation='sigmoid'))
+        add_model.add(Dense(2, activation='softmax'))
 
         self.model = add_model
 
-        self.model.compile(loss='categorical_crossentropy',
+        self.model.compile(loss='binary_crossentropy',
                            optimizer=optimizers.SGD(lr=1e-3,
                                                     momentum=0.9),
                            metrics=['accuracy'])
