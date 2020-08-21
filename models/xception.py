@@ -101,7 +101,7 @@ class XceptionClassifier:
         self.model.load_weights(self.file_path)
         predicts = self.model.predict(self.test_data_gen, verbose=True, batch_size=self.batch_size)
 
-        val_data = { 'target' : self.y_test, 'prediction' : predicts }
+        val_data = { 'target' : self.y_test, 'prediction' : predicts.tolist() }
 
         with open('./validation-new/xception.json', 'w') as f:
             json.dump(val_data, f)
