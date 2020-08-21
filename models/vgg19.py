@@ -34,7 +34,7 @@ class VGG19Classifier:
                                             validation_split=0.2)
 
         self.train_data_gen = data_gen.flow_from_dataframe(
-
+            dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
             x_col="filename",
@@ -45,7 +45,7 @@ class VGG19Classifier:
             subset='training')
 
         self.test_data_gen = data_gen.flow_from_dataframe(
-
+            dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
             x_col="filename",
