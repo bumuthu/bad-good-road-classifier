@@ -73,7 +73,7 @@ class VGG19Classifier:
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dropout(0.3))
         add_model.add(Dense(1024, activation='relu'))
-        add_model.add(Dense(2, activation='softmax'))
+        add_model.add(Dense(2, activation='sigmoid'))
 
         self.model = add_model
 
@@ -104,13 +104,13 @@ class VGG19Classifier:
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         predicts = np.argmax(predicts, axis=1)
 
-        predicts = [int(i) for i in predicts]
+        print(predicts)
 
-        val_data = { 'target' : self.y_test, 'prediction' : predicts }
-
-        with open('./validation-new/vgg19.json', 'w') as f:
-            json.dump(val_data, f)
-
-        report = classification_report(self.y_test, predicts)
-
-        print(report)
+        # val_data = { 'target' : self.y_test, 'prediction' : predicts }
+        #
+        # with open('./validation-new/vgg19.json', 'w') as f:
+        #     json.dump(val_data, f)
+        #
+        # report = classification_report(self.y_test, predicts)
+        #
+        # print(report)
