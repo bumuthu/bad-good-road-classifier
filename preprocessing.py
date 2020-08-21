@@ -35,3 +35,6 @@ class DataPreprocessing:
         self.test_df = pd.DataFrame.from_dict(test_path_dict)
         self.y_test = y_test
 
+        self.train_df.to_json('./train-datapaths.json')
+        self.test_df.to_json('./test-datapaths.json')
+
