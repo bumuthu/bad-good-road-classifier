@@ -25,38 +25,35 @@ class VGG19Classifier:
         self.y_test = y_test
 
     def prepare_data_generator(self):
-        train_data_gen = ImageDataGenerator(vertical_flip=False,
+        data_gen = ImageDataGenerator(vertical_flip=False,
                                             horizontal_flip=True,
                                             height_shift_range=0.3,
                                             width_shift_range=0.3,
                                             rotation_range=30,
-                                            preprocessing_function=preprocess_input)
+                                            preprocessing_function=preprocess_input,
+                                            validation_split=0.2)
 
-        test_data_gen = ImageDataGenerator(preprocessing_function=preprocess_input)
-
-        self.train_data_gen = train_data_gen.flow_from_dataframe(
+        self.train_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
             x_col="filename",
             y_col="class",
-            shuffle=False,
-            weight_col=None,
-            classes=None,
+            shuffle=True,
             target_size=(self.ROWS, self.COLS),
-            batch_size=self.batch_size)
+            batch_size=self.batch_size,
+            subset='training')
 
-        self.test_data_gen = test_data_gen.flow_from_dataframe(
+        self.test_data_gen = data_gen.flow_from_dataframe(
             dataframe=self.test_df,
             directory=None,
             class_mode="categorical",
             x_col="filename",
             y_col="class",
-            shuffle=False,
-            weight_col=None,
-            classes=None,
+            shuffle=True,
             target_size=(self.ROWS, self.COLS),
-            batch_size=self.batch_size)
+            batch_size=self.batch_size,
+            subset='validation')
 
     def create_model(self):
         base_model = applications.VGG19(weights='imagenet',
