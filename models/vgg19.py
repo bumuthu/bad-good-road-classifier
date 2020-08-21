@@ -25,35 +25,38 @@ class VGG19Classifier:
         self.y_test = y_test
 
     def prepare_data_generator(self):
-        data_gen = ImageDataGenerator(vertical_flip=False,
+        train_data_gen = ImageDataGenerator(vertical_flip=False,
                                             horizontal_flip=True,
                                             height_shift_range=0.3,
                                             width_shift_range=0.3,
                                             rotation_range=30,
-                                            preprocessing_function=preprocess_input,
-                                            validation_split=0.2)
+                                            preprocessing_function=preprocess_input)
 
-        self.train_data_gen = data_gen.flow_from_dataframe(
+        test_data_gen = ImageDataGenerator(preprocessing_function=preprocess_input)
+
+        self.train_data_gen = train_data_gen.flow_from_dataframe(
             dataframe=self.train_df,
             directory=None,
             class_mode="categorical",
             x_col="filename",
             y_col="class",
-            shuffle=True,
+            shuffle=False,
+            weight_col=None,
+            classes=None,
             target_size=(self.ROWS, self.COLS),
-            batch_size=self.batch_size,
-            subset='training')
+            batch_size=self.batch_size)
 
-        self.test_data_gen = data_gen.flow_from_dataframe(
-            dataframe=self.train_df,
+        self.test_data_gen = test_data_gen.flow_from_dataframe(
+            dataframe=self.test_df,
             directory=None,
             class_mode="categorical",
             x_col="filename",
             y_col="class",
-            shuffle=True,
+            shuffle=False,
+            weight_col=None,
+            classes=None,
             target_size=(self.ROWS, self.COLS),
-            batch_size=self.batch_size,
-            subset='validation')
+            batch_size=self.batch_size)
 
     def create_model(self):
         base_model = applications.VGG19(weights='imagenet',
@@ -98,7 +101,7 @@ class VGG19Classifier:
 
     def evaluate_model(self):
         self.model.load_weights(self.file_path)
-        predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
+        predicts = self.model.predict(self.test_data_gen, verbose=True, workers=2)
         # predicts = np.argmax(predicts, axis=1)
 
         val_data = { 'target' : self.y_test, 'prediction' : predicts.tolist() }
