@@ -8,7 +8,7 @@ from preprocessing import DataPreprocessing
 if __name__ == "__main__":
 
     # number of epochs
-    epochs = 2
+    epochs = 25
 
     # select the path to data directory
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset-new/'
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     test_ratio = 0.3
 
     # batch size for training
-    batch_size = 32
+    batch_size = 16
 
     preproc = DataPreprocessing(data_path, test_ratio)
     preproc.prepare_image_path_df()
