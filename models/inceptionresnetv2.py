@@ -71,7 +71,7 @@ class InceptionResNetV2Classifier:
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dropout(0.3))
         add_model.add(Dense(1024, activation='relu'))
-        add_model.add(Dense(2, activation='softmax'))
+        add_model.add(Dense(4, activation='sigmoid'))
 
         self.model = add_model
 
