@@ -17,7 +17,7 @@ if __name__ == "__main__":
     test_ratio = 0.3
 
     # batch size for training
-    batch_size = 32
+    batch_size = 16
 
     preproc = DataPreprocessing(data_path, test_ratio)
     preproc.prepare_image_path_df()
