@@ -8,7 +8,7 @@ from preprocessing import DataPreprocessing
 if __name__ == "__main__":
 
     # number of epochs
-    epochs = 30
+    epochs = 5
 
     # select the path to data directory
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset-new/'
