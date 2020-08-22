@@ -14,7 +14,7 @@ if __name__ == "__main__":
     data_path = '/home/bumuthudilshanhhk/Downloads/dataset-new/'
 
     # data split ratio for training and testing
-    test_ratio = 0.3
+    test_ratio = 0.2
 
     # batch size for training
     batch_size = 16
