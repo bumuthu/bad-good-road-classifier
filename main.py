@@ -39,8 +39,8 @@ if __name__ == "__main__":
         model.evaluate_model()
 
     # uncomment followings for training
-    train_model(inceptionresnetv2_model)
-    train_model(resnet50_model)
+    # train_model(inceptionresnetv2_model)
+    # train_model(resnet50_model)
     train_model(xception_model)
     train_model(inceptionv3_model)
     train_model(vgg19_model)
