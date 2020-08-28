@@ -92,6 +92,7 @@ class InceptionResNetV2Classifier:
 
         history = self.model.fit_generator(self.train_data_gen,
                                            epochs=self.epochs,
+                                           validation_data=self.test_data_gen,
                                            verbose=True,
                                            callbacks=callbacks_list)
 

@@ -93,6 +93,7 @@ class XceptionClassifier:
         history = self.model.fit_generator(self.train_data_gen,
                                            epochs=self.epochs,
                                            verbose=True,
+                                           validation_data=self.test_data_gen,
                                            callbacks=callbacks_list)
 
         with open('./history-4/xception.json', 'w') as f:
