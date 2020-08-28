@@ -42,7 +42,7 @@ class InceptionResNetV2Classifier:
             y_col="class",
             shuffle=False,
             weight_col=None,
-            classes=None,
+            classes=['crack', 'pothole', 'good'],
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
@@ -54,7 +54,7 @@ class InceptionResNetV2Classifier:
             y_col="class",
             shuffle=False,
             weight_col=None,
-            classes=None,
+            classes=['crack', 'pothole', 'good'],
             target_size=(self.ROWS, self.COLS),
             batch_size=self.batch_size)
 
@@ -73,7 +73,7 @@ class InceptionResNetV2Classifier:
         add_model.add(Dense(1024, activation='relu'))
         add_model.add(Dropout(0.3))
         add_model.add(Dense(1024, activation='relu'))
-        add_model.add(Dense(2, activation='softmax'))
+        add_model.add(Dense(3, activation='softmax'))
 
         self.model = add_model
 
@@ -95,7 +95,7 @@ class InceptionResNetV2Classifier:
                                            verbose=True,
                                            callbacks=callbacks_list)
 
-        with open('./history/inceptionresnetv2.json', 'w') as f:
+        with open('./history-4/inceptionresnetv2.json', 'w') as f:
             json.dump(history.history, f)
 
     def evaluate_model(self):
@@ -103,6 +103,7 @@ class InceptionResNetV2Classifier:
         predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
         predicts = np.argmax(predicts, axis=1)
 
-        report = classification_report(self.y_test, predicts)
+        val_data = {'target': self.y_test, 'prediction': predicts.tolist()}
 
-        print(report)
+        with open('./validation-4/inceptionresnetv2.json', 'w') as f:
+            json.dump(val_data, f)
