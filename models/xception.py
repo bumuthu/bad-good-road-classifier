@@ -100,7 +100,7 @@ class XceptionClassifier:
 
     def evaluate_model(self):
         self.model.load_weights(self.file_path)
-        predicts = self.model.predict_generator(self.test_data_gen, verbose=True, workers=2)
+        predicts = self.model.predict(self.test_data_gen, verbose=True, batch_size=self.batch_size)
         predicts = np.argmax(predicts, axis=1)
 
         val_data = {'target': self.y_test, 'prediction': predicts.tolist()}
