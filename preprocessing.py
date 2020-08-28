@@ -15,13 +15,13 @@ class DataPreprocessing:
         paths = []
         y = []
 
-        for crack_pth in os.listdir(self.data_dir + 'crack')[:900]:
+        for crack_pth in os.listdir(self.data_dir + 'crack')[:1500]:
             paths.append(self.data_dir + 'crack/' + crack_pth)
             y.append('crack')
         for pothole_pth in os.listdir(self.data_dir + 'pothole')[:900]:
             paths.append(self.data_dir + 'pothole/' + pothole_pth)
             y.append('pothole')
-        for good_pth in os.listdir(self.data_dir + 'good')[:900]:
+        for good_pth in os.listdir(self.data_dir + 'good')[:1500]:
             paths.append(self.data_dir + 'good/' + good_pth)
             y.append('good')
 
