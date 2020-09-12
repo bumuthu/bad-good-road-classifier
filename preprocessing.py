@@ -133,7 +133,7 @@ class DataPreprocessing:
 
     # Save sault and pepper noisy images in a datset directory
     def save_sp_noises(self, paths):
-        noise_levels = [0.05, 0.1, 0.2, 0.3]
+        noise_levels = [0.05, 0.1, 0.2]
         for n in noise_levels:
             for p in paths:
                 path = p["filename"]
@@ -144,7 +144,7 @@ class DataPreprocessing:
 
     # Save random noisy images in a datset directory
     def save_rand_noises(self, paths):
-        noise_levels = [0.05, 0.1, 0.2, 0.3]
+        noise_levels = [0.05, 0.1, 0.2]
         for n in noise_levels:
             for p in paths:
                 path = p["filename"]
@@ -197,6 +197,9 @@ class DataPreprocessing:
 
         train_path_dict = [{"filename": paths_train[i], "class": str(y_train[i])} for i in range(len(paths_train))]
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
+
+        self.save_sp_noises(test_path_dict)
+        self.save_rand_noises(test_path_dict)
 
         if func == 'sp':
             test_path_dict = self.add_sp_noises(test_path_dict, level)
