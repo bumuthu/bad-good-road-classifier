@@ -1,3 +1,4 @@
+import json
 from models.inceptionv3 import InceptionV3Classifier
 from models.vgg19 import VGG19Classifier
 from models.resnet50 import ResNet50Classifier
@@ -38,6 +39,34 @@ if __name__ == "__main__":
         model.create_model()
         model.evaluate_model()
 
+    noise_levels = [0.05, 0.1, 0.2]
+
+    results = {"resnet": [], "xception": [], "inceptionv3": [], "inceptionresnetv2": []}
+
+    # Testing for noisy images
+    for func in ['sp', 'rand']:
+        for level in noise_levels:
+            preproc = DataPreprocessing(data_path, test_ratio)
+            preproc.prepare_image_path_df(func, level)
+
+            inceptionv3_model = InceptionV3Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs,
+                                                      batch_size)
+            resnet50_model = ResNet50Classifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+            xception_model = XceptionClassifier(preproc.train_df, preproc.test_df, preproc.y_test, epochs, batch_size)
+            inceptionresnetv2_model = InceptionResNetV2Classifier(preproc.train_df, preproc.test_df, preproc.y_test,
+                                                                  epochs, batch_size)
+
+            noise = func + str(level)
+            noise_attr = func + '-level-' + str(level)
+
+            results["resnet"].append({noise_attr: evaluate_model(resnet50_model, noise)})
+            results["xception"].append({noise_attr: evaluate_model(xception_model, noise)})
+            results["inceptionv3"].append({noise_attr: evaluate_model(inceptionv3_model, noise)})
+            results["inceptionresnetv2"].append({noise_attr: evaluate_model(inceptionresnetv2_model, noise)})
+
+            with open('./history/noise.json', 'w') as f:
+                json.dump(results, f)
+
     # uncomment followings for training
 
     # train_model(resnet50_model)
@@ -45,12 +74,6 @@ if __name__ == "__main__":
     # train_model(inceptionv3_model)
     # train_model(vgg19_model)
     # train_model(inceptionresnetv2_model)
-
-    evaluate_model(resnet50_model)
-    evaluate_model(xception_model)
-    evaluate_model(inceptionv3_model)
-    # evaluate_model(vgg19_model)
-    evaluate_model(inceptionresnetv2_model)
 
 
 
