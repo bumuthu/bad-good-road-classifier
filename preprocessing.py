@@ -198,8 +198,8 @@ class DataPreprocessing:
         train_path_dict = [{"filename": paths_train[i], "class": str(y_train[i])} for i in range(len(paths_train))]
         test_path_dict = [{"filename": paths_test[i], "class": str(y_test[i])} for i in range(len(paths_test))]
 
-        self.save_sp_noises(test_path_dict)
-        self.save_rand_noises(test_path_dict)
+        # self.save_sp_noises(test_path_dict)
+        # self.save_rand_noises(test_path_dict)
 
         if func == 'sp':
             test_path_dict = self.add_sp_noises(test_path_dict, level)
