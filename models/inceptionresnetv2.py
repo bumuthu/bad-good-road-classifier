@@ -8,7 +8,7 @@ from keras import optimizers, losses, activations, models
 from keras.layers import Convolution2D, Dense, Input, Flatten, Dropout, MaxPooling2D, BatchNormalization, \
     GlobalAveragePooling2D, Concatenate
 from keras import applications
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, accuracy_score
 
 
 class InceptionResNetV2Classifier:
@@ -99,12 +99,14 @@ class InceptionResNetV2Classifier:
         with open('./history-4/inceptionresnetv2.json', 'w') as f:
             json.dump(history.history, f)
 
-    def evaluate_model(self):
+    def evaluate_model(self, noise):
         self.model.load_weights(self.file_path)
         predicts = self.model.predict(self.test_data_gen, verbose=True, batch_size=self.batch_size)
         predicts = np.argmax(predicts, axis=1)
 
         val_data = {'target': self.y_test, 'prediction': predicts.tolist()}
 
-        with open('./validation-4/inceptionresnetv2.json', 'w') as f:
+        with open('./validation-4/inceptionresnetv2' + noise + '.json', 'w') as f:
             json.dump(val_data, f)
+
+        return accuracy_score(self.y_test, predicts)
