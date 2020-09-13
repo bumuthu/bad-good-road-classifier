@@ -35,7 +35,7 @@ if __name__ == "__main__":
     results = {"resnet": [], "xception": [], "inceptionv3": [], "inceptionresnetv2": []}
 
     # Testing for noisy images
-    for func in ['sp', 'rand']:
+    for func in ['rand']:
         for level in noise_levels:
             preproc = DataPreprocessing(data_path, test_ratio)
             preproc.prepare_image_path_df(func, level)
