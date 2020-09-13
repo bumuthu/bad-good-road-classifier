@@ -55,7 +55,7 @@ if __name__ == "__main__":
             results["inceptionv3"].append({noise_attr: evaluate_model(inceptionv3_model, noise)})
             results["inceptionresnetv2"].append({noise_attr: evaluate_model(inceptionresnetv2_model, noise)})
 
-            with open('./history/noise.json', 'w') as f:
+            with open('./history/noise-' + func + '.json', 'w') as f:
                 json.dump(results, f)
 
     # uncomment followings for training

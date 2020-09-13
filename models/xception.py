@@ -104,10 +104,19 @@ class XceptionClassifier:
         predicts = self.model.predict(self.test_data_gen, verbose=True, batch_size=self.batch_size)
         predicts = np.argmax(predicts, axis=1)
 
-        val_data = {'target': self.y_test, 'prediction': predicts.tolist()}
+        encoded = []
+        for ele in self.y_test:
+            if ele == 'good':
+                encoded.append(0)
+            if ele == 'crack':
+                encoded.append(1)
+            if ele == 'pothole':
+                encoded.append(2)
+
+        val_data = {'target': encoded, 'prediction': predicts.tolist()}
 
         with open('./validation-4/xception' + noise + '.json', 'w') as f:
             json.dump(val_data, f)
 
-        return accuracy_score(self.y_test, predicts)
+        return accuracy_score(encoded, predicts)
 
